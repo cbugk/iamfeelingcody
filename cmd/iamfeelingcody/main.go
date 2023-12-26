@@ -5,12 +5,9 @@ import (
 	"net/http"
 
 	"github.com/cbugk/iamfeelingcody/internal/routes"
-	"github.com/dchest/uniuri"
 )
 
 func main() {
-	fmt.Println(uniuri.New())
-
 	router := routes.NewRouter()
 
 	port := 8000
