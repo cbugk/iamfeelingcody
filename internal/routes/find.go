@@ -8,6 +8,10 @@ import (
 	"github.com/dchest/uniuri"
 )
 
+func find(w http.ResponseWriter, r *http.Request) {
+	templates.PageFind(findGithubUser(1)).Render(r.Context(), w)
+}
+
 func findGithubUser(length int) string {
 	userURI := ""
 
@@ -25,8 +29,4 @@ func findGithubUser(length int) string {
 	}
 
 	return userURI
-}
-
-func handleFind(w http.ResponseWriter, r *http.Request) {
-	templates.PageFind(findGithubUser(1)).Render(r.Context(), w)
 }
