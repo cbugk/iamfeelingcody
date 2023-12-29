@@ -3,6 +3,6 @@ package templates
 
 templ PageFind(uri string) {
 	<div>
-        Found Github user: <a href="{ uri }">{ uri }</a>
+        Found Github user: <a href={ templ.URL(uri) }>{ uri }</a>
     </div>
 }
