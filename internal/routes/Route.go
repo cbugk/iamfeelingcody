@@ -7,6 +7,7 @@ import (
 
 var rRoot = regexp.MustCompile(`^/?$`)
 var rFind = regexp.MustCompile(`^\/find\/?$`)
+var rForm = regexp.MustCompile(`^\/form\/?$`)
 var rHello = regexp.MustCompile(`^\/hello\/?.*$`)
 
 func Route(w http.ResponseWriter, r *http.Request) {
@@ -15,8 +16,8 @@ func Route(w http.ResponseWriter, r *http.Request) {
 		find(w, r)
 	case rHello.MatchString(r.URL.Path):
 		hello(w, r)
-	case rRoot.MatchString(r.URL.Path):
-		root(w, r)
+	//case rRoot.MatchString(r.URL.Path):
+	//	root(w, r, _)
 	default:
 		notFound(w, r)
 	}
