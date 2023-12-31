@@ -21,9 +21,12 @@ templ:
 tidy:
 	$(GO) mod tidy
 
+vendor:
+	$(GO) mod vendor
+
 #-----------
-build: templ tidy
+build: templ tidy vendor
 	$(GO) build -o ./bin/iamfeelingcody cmd/iamfeelingcody/*.go
 
-run: templ tidy
+run: templ tidy vendor
 	$(GO) run cmd/iamfeelingcody/*.go
