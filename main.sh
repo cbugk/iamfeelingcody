@@ -54,7 +54,9 @@ run() {
   goModTidy
   goModVendor
 
-  build && ./bin/iamfeelingcody
+  build && \
+  chmod u+x ./bin/iamfeelingcody && \
+  ./bin/iamfeelingcody
 }; export -f run
 
 go() {
