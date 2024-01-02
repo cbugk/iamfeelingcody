@@ -9,5 +9,7 @@ func Router() *httprouter.Router {
 
 	mux.GET("/", root)
 
+	mux.GET("/find", find)
+
 	return mux
 }
