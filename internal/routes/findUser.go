@@ -8,6 +8,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func find(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	templates.PageFind(misc.FindGithubUser(1)).Render(r.Context(), w)
+func findUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+	templates.PageFind(misc.GithubUserURI(p.ByName("user"))).Render(r.Context(), w)
 }
