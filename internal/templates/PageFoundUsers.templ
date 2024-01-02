@@ -1,0 +1,15 @@
+package templates
+
+templ PageFoundUsers(userURIs []string) {
+    <div>
+        <table>
+            for _, uri := range userURIs {
+                <tr>
+                    <th>
+                        <a href={ templ.URL(uri) }>{ uri }</a>
+                    </th>
+                </tr>
+            }
+        </table>
+    </div>
+}
