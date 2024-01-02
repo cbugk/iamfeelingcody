@@ -12,7 +12,7 @@ installGo() {
   fi
 
   go version
-}
+}; export -f installGo
 
 installTempl() {
   if [ ! -f "${BIN_TEMPL}" ]; then
@@ -20,25 +20,25 @@ installTempl() {
   fi
 
   templ version
-}
+}; export -f installTempl
 
 install() {
   installGo
   installTempl
-}
+}; export -f install
 
 #---------------
 templGenerate() {
   templ generate ./cmd ./internal ./pkg ./tests
-}
+}; export -f templGenerate
 
 goModTidy() {
   go mod tidy
-}
+}; export -f goModTidy
 
 goModVendor() {
   go mod vendor
-}
+}; export -f goModVendor
 
 #---------------
 build() {
@@ -47,7 +47,7 @@ build() {
   goModVendor
 
   go build -o ./bin/iamfeelingcody cmd/iamfeelingcody/*.go
-}
+}; export -f build
 
 run() {
   templGenerate
@@ -55,7 +55,7 @@ run() {
   goModVendor
 
   build && ./bin/iamfeelingcody
-}
+}; export -f run
 
 go() {
   "${BIN_GO}" "${@}"
@@ -86,7 +86,7 @@ main() {
       eval "${2}"
       ;;
   esac
-}
+}; export -f main
 
 if [ "${0}" = 'source' ] || [ ${0} = '.' ];then
   echo Script must not be sourced
