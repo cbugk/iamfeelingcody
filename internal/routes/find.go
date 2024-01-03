@@ -1,6 +1,8 @@
 package routes
 
 import (
+	"errors"
+	"log"
 	"net/http"
 
 	"github.com/cbugk/iamfeelingcody/internal/misc"
@@ -9,5 +11,18 @@ import (
 )
 
 func find(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	templates.PageFind(misc.FindGithubUser(1)).Render(r.Context(), w)
+	// Empty username
+	if username := r.URL.Query().Get("username"); username == "" {
+		templates.PageFindErrProvideUsername().Render(r.Context(), w)
+	} else {
+		uri, err := misc.CheckGithubUser(username)
+
+		if err == nil {
+			templates.PageGithubUserFound(uri).Render(r.Context(), w)
+		} else if errors.Is(err, &misc.ErrorGithubUserNotFound{}) {
+			templates.PageGithubUserNotFound(uri).Render(r.Context(), w)
+		} else {
+			log.Fatal(err)
+		}
+	}
 }

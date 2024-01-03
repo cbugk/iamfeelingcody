@@ -1,0 +1,10 @@
+package templates
+
+
+templ PageGithubUserFound(uri string) {
+	<div>
+        <p>
+            Found Github user: "<a href={ templ.URL(uri) }>{ uri }</a>"
+        </p>
+    </div>
+}

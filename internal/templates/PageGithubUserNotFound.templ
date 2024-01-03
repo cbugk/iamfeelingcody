@@ -1,0 +1,9 @@
+package templates
+
+templ PageGithubUserNotFound(uri string) {
+	<div>
+        <p>
+            Could not find Github user: "<a href={ templ.URL(uri) }>{ uri }</a>"
+        </p>
+    </div>
+}
