@@ -8,6 +8,6 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func foundUsers(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func users(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	templates.PageFoundUsers(misc.GetDB().UserURIs).Render(r.Context(), w)
 }
