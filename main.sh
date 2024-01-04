@@ -50,10 +50,6 @@ build() {
 }; export -f build
 
 run() {
-  templGenerate
-  goModTidy
-  goModVendor
-
   build && \
   chmod u+x ./bin/iamfeelingcody && \
   ./bin/iamfeelingcody
