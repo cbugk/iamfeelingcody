@@ -3,8 +3,10 @@ Golang, Templ, and Htmx toy project.
 
 # Test it!
 ```sh
+export IAMFEELINGCODY_GOPATH_PARENT="${HOME}/iamfeelingcody-go"
+
 chmod u+x ./main.sh
-./main.sh install
+./main.sh installGo
 ./main.sh run
 ```
 

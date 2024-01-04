@@ -2,30 +2,23 @@
 
 #---------------
 installGo() {
-  mkdir -p "${GOPATH}"
+  mkdir -p "${GOPATH_PARENT}"
+
+  if [ ! -d "${GOPATH_PARENT}" ]; then
+    echo "Could not find directory to install go"
+    exit 1
+  fi
 
   if [ ! -f "${BIN_GO}" ]; then
-    cd "${GOPATH}/.." && ( \
+    cd "${GOPATH_PARENT}" && ( \
       curl -L "https://go.dev/dl/go1.21.5.linux-amd64.tar.gz" | tar xzf -
       chmod u+x ./go/bin/go
+      echo ${PWD}
     ) && cd -
   fi
 
   go version
 }; export -f installGo
-
-installTempl() {
-  if [ ! -f "${BIN_TEMPL}" ]; then
-    go install "github.com/a-h/templ/cmd/templ@${TEMPL_VERSION}"
-  fi
-
-  templ version
-}; export -f installTempl
-
-install() {
-  installGo
-  installTempl
-}; export -f install
 
 #---------------
 templGenerate() {
@@ -41,53 +34,53 @@ goModVendor() {
 }; export -f goModVendor
 
 #---------------
+prerun() {
+  templGenerate
+  goModTidy
+  goModVendor
+}
+
 build() {
+  prerun
+
+  go build -o ./bin/iamfeelingcody cmd/iamfeelingcody/*.go && \
+  chmod u+x ./bin/iamfeelingcody
+}; export -f build
+
+run() {
+  prerun
+
   templGenerate
   goModTidy
   goModVendor
 
-  go build -o ./bin/iamfeelingcody cmd/iamfeelingcody/*.go
-}; export -f build
-
-run() {
-  build && \
-  chmod u+x ./bin/iamfeelingcody && \
-  ./bin/iamfeelingcody
+  go run cmd/iamfeelingcody/*.go
 }; export -f run
 
-go() {
-  "${BIN_GO}" "${@}"
-}; export -f go
 
-templ() {
-  "${BIN_TEMPL}" "${@}"
-}; export templ
+#---------------
+#if [ "${0}" = 'source' ] || [ ${0} = '.' ];then
+#  echo Script must not be sourced
+#  exit 1
+#fi
 
-main() {
-  DIR_SCRIPT="$(dirname -- "$(readlink -f -- "${1}")")"
+# Pop goroot parameter
+export GOPATH_PARENT="${IAMFEELINGCODY_GOPATH_PARENT:=${HOME}}"
+echo "iamfeelingcody: ${IAMFEELINGCODY_GOPATH_PARENT}"
+export GOPATH="${GOPATH_PARENT}/go"
 
-  export GOROOT="${DIR_SCRIPT}/bin/go"
-  export GOPATH="${DIR_SCRIPT}/bin/go"
-  export GO_VERSION="1.21.5"
-  export BIN_GO="${GOPATH}/bin/go"
-  export BIN_TEMPL="${GOPATH}/bin/templ"
-  export TEMPL_VERSION="v0.2.501"
+export GO_VERSION="1.21.5"
+export TEMPL_VERSION="v0.2.501"
 
-  #---------------
-  # Not injection safe
-  case "${2}" in
-    "")
-      echo "Provide a target"
-      ;;
-    *)
-      echo "${2}"
-      eval "${2}"
-      ;;
-  esac
-}; export -f main
+export PATH="${GOPATH}/bin:${PATH}"
 
-if [ "${0}" = 'source' ] || [ ${0} = '.' ];then
-  echo Script must not be sourced
-else
-  main "${0}" "${1}"
-fi
+# Not injection safe
+case "${1}" in
+  "")
+    echo "Provide a target"
+    ;;
+  *)
+    echo "${@}"
+    eval "${@}"
+    ;;
+esac

@@ -4,10 +4,6 @@
 # Output binaries
 bin/*
 
-# Templ generated go files
-**/*_templ.go
-
-
 #####################
 # Global exceptions #
 #####################
