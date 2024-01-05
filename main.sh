@@ -20,6 +20,19 @@ installGo() {
   go version
 }; export -f installGo
 
+installTempl() {
+  if [ ! -f "${BIN_TEMPL}" ]; then
+    go install "github.com/a-h/templ/cmd/templ@${TEMPL_VERSION}"
+  fi
+
+  templ version
+}; export -f installTempl
+
+install() {
+  installGo
+  installTempl
+}; export -f install
+
 #---------------
 templGenerate() {
   templ generate ./cmd ./internal ./pkg ./tests
@@ -50,10 +63,6 @@ build() {
 run() {
   prerun
 
-  templGenerate
-  goModTidy
-  goModVendor
-
   go run cmd/iamfeelingcody/*.go
 }; export -f run
 
@@ -71,6 +80,9 @@ export GOPATH="${GOPATH_PARENT}/go"
 
 export GO_VERSION="1.21.5"
 export TEMPL_VERSION="v0.2.501"
+
+export BIN_GO="${GOPATH}/bin/go"
+export BIN_TEMPL="${GOPATH}/bin/templ"
 
 export PATH="${GOPATH}/bin:${PATH}"
 
