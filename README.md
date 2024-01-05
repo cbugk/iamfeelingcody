@@ -6,7 +6,7 @@ Golang, Templ, and Htmx toy project.
 export IAMFEELINGCODY_GOPATH_PARENT="${HOME}/iamfeelingcody-go"
 
 chmod u+x ./main.sh
-./main.sh installGo
+./main.sh install
 ./main.sh run
 ```
 
