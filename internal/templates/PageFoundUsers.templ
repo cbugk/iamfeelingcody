@@ -1,12 +1,16 @@
 package templates
 
-templ PageFoundUsers(userURIs []string) {
+import (
+    "github.com/cbugk/iamfeelingcody/internal/model"
+)
+
+templ PageFoundUsers(users []model.GithubUser) {
     <div>
         <table>
-            for _, uri := range userURIs {
+            for _, user := range users {
                 <tr>
                     <th>
-                        <a href={ templ.URL(uri) }>{ uri }</a>
+                        <a href={ templ.URL(user.URI().Text()) }>{ user.URI().Text() }</a>
                     </th>
                 </tr>
             }

@@ -1,9 +1,13 @@
 package templates
 
-templ PageGithubUserNotFound(uri string) {
+import (
+    "github.com/cbugk/iamfeelingcody/internal/model"
+)
+
+templ PageGithubUserNotFound(user model.GithubUser) {
 	<div>
         <p>
-            Could not find Github user: "<a href={ templ.URL(uri) }>{ uri }</a>"
+            Could not find Github user: "<a href={ templ.URL(user.URI().Text()) }>{ user.URI().Text() }</a>"
         </p>
     </div>
 }

@@ -5,23 +5,22 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cbugk/iamfeelingcody/internal/misc"
+	"github.com/cbugk/iamfeelingcody/internal/db"
+	"github.com/cbugk/iamfeelingcody/internal/model"
 	"github.com/julienschmidt/httprouter"
 )
 
 func postUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	db := misc.GetDB()
-
 	r.ParseForm()
-	username := r.Form.Get("username")
-	_, err := misc.CheckGithubUser(username)
+	name := r.Form.Get("name")
+	user := model.MakeGithubUser(name)
 
-	if err == nil {
+	if err := model.CheckGithubUser(user); err == nil {
 		w.WriteHeader(http.StatusCreated)
-		db.UserURIs = append(db.UserURIs, misc.GithubUserURI(username))
-	} else if errors.Is(err, &misc.ErrorGithubUserNotFound{}) {
+		db.AddGithubUser(user)
+	} else if errors.Is(err, &model.ErrorGithubUserNotFound{}) {
 		w.WriteHeader(http.StatusNoContent)
 	} else {
-		log.Fatal(err)
+		log.Fatal(err.Error())
 	}
 }
