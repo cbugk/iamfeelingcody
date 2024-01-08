@@ -28,9 +28,19 @@ installTempl() {
   templ version
 }; export -f installTempl
 
+installGoTelemetry() {
+  go run golang.org/x/telemetry/cmd/gotelemetry@latest on
+}
+
+installGopls() {
+  go install golang.org/x/tools/gopls@latest
+}
+
 install() {
   installGo
   installTempl
+  installGoTelemetry
+  installGopls
 }; export -f install
 
 #---------------
@@ -73,18 +83,7 @@ run() {
 #  exit 1
 #fi
 
-# Pop goroot parameter
-export GOPATH_PARENT="${IAMFEELINGCODY_GOPATH_PARENT:=${HOME}}"
-echo "iamfeelingcody: ${IAMFEELINGCODY_GOPATH_PARENT}"
-export GOPATH="${GOPATH_PARENT}/go"
-
-export GO_VERSION="1.21.5"
-export TEMPL_VERSION="v0.2.501"
-
-export BIN_GO="${GOPATH}/bin/go"
-export BIN_TEMPL="${GOPATH}/bin/templ"
-
-export PATH="${GOPATH}/bin:${PATH}"
+source "$(dirname "$(realpath "${0}")")/env.sh"
 
 # Not injection safe
 case "${1}" in

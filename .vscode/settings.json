@@ -1,0 +1,9 @@
+{
+  "terminal.integrated.profiles.linux": {
+    "envsh": {
+      "path": "/bin/bash",
+      "args": ["-c", "source \"${workspaceFolder}/env.sh\" && bash"],
+    },
+  },
+  "terminal.integrated.defaultProfile.linux": "envsh",
+}
