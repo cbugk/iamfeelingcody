@@ -8,13 +8,18 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"path"
 	"syscall"
 	"time"
 
+	"github.com/cbugk/iamfeelingcody/internal/binpath"
+	"github.com/cbugk/iamfeelingcody/internal/db"
 	"github.com/cbugk/iamfeelingcody/internal/routes"
 )
 
 func main() {
+	db.CreateTable(db.GetDB(path.Join(binpath.Dir(), "iamfeelingcody.sqlite")))
+
 	port := 8000
 	addr := fmt.Sprintf("localhost:%d", port)
 	fmt.Printf("Server listening on http://%s\n", addr)
@@ -49,7 +54,7 @@ func main() {
 	//if err := http.ListenAndServe(addr, nil); err != nil &&
 	if err := server.ListenAndServe(); err != nil &&
 		errors.Is(err, http.ErrServerClosed) {
-		log.Fatalf("Http server failed to start: %v", err)
+		log.Fatalf("Http server failed to start: %v", err.Error())
 	}
 
 	<-idleConnsClosed

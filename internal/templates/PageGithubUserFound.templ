@@ -1,10 +1,14 @@
 package templates
 
+import (
+    "github.com/cbugk/iamfeelingcody/internal/model"
+)
 
-templ PageGithubUserFound(uri string) {
+
+templ PageGithubUserFound(user model.GithubUser) {
 	<div>
         <p>
-            Found Github user: "<a href={ templ.URL(uri) }>{ uri }</a>"
+            Found Github user: "<a href={ templ.URL(user.URI().Text()) }>{ user.URI().Text() }</a>"
         </p>
     </div>
 }

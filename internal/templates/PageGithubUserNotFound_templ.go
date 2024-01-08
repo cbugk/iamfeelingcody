@@ -10,7 +10,11 @@ import "context"
 import "io"
 import "bytes"
 
-func PageGithubUserNotFound(uri string) templ.Component {
+import (
+	"github.com/cbugk/iamfeelingcody/internal/model"
+)
+
+func PageGithubUserNotFound(user model.GithubUser) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -36,7 +40,7 @@ func PageGithubUserNotFound(uri string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var3 templ.SafeURL = templ.URL(uri)
+		var templ_7745c5c3_Var3 templ.SafeURL = templ.URL(user.URI().Text())
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var3)))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -46,9 +50,9 @@ func PageGithubUserNotFound(uri string) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(uri)
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(user.URI().Text())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/PageGithubUserNotFound.templ`, Line: 5, Col: 73}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templates/PageGithubUserNotFound.templ`, Line: 9, Col: 101}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
