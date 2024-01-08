@@ -1,6 +1,3 @@
-# VSCode directory
-.vscode
-
 # Output binaries
 bin/*
 
