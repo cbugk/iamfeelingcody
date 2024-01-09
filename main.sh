@@ -36,11 +36,16 @@ installGopls() {
   go install golang.org/x/tools/gopls@latest
 }
 
+installSqlc() {
+  go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+}
+
 install() {
   installGo
   installTempl
   installGoTelemetry
   installGopls
+  installSqlc
 }; export -f install
 
 #---------------
@@ -76,6 +81,12 @@ run() {
   go run cmd/iamfeelingcody/*.go
 }; export -f run
 
+runbin() {
+  mv ./bin/iamfeelingcody{,.bak}; \
+  mv ./bin/iamfeelingcody.sqlite{,.bak}; \
+  build && \
+  ./bin/iamfeelingcody
+}
 
 #---------------
 #if [ "${0}" = 'source' ] || [ ${0} = '.' ];then
