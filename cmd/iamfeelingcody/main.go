@@ -8,17 +8,18 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"path"
 	"syscall"
 	"time"
 
-	"github.com/cbugk/iamfeelingcody/internal/binpath"
-	"github.com/cbugk/iamfeelingcody/internal/db"
+	"github.com/cbugk/iamfeelingcody/internal/glob"
 	"github.com/cbugk/iamfeelingcody/internal/routes"
 )
 
 func main() {
-	db.CreateTable(db.GetDB(path.Join(binpath.Dir(), "iamfeelingcody.sqlite")))
+	fmt.Println("Started iamfeelingcody")
+
+	// initialize db
+	_ = glob.Q()
 
 	port := 8000
 	addr := fmt.Sprintf("localhost:%d", port)

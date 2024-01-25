@@ -1,13 +1,14 @@
 package templ
 
 import (
-    "github.com/cbugk/iamfeelingcody/internal/model"
+    "fmt"
+    "github.com/cbugk/iamfeelingcody/internal/sqlc"
 )
 
-templ PageGithubUserNotFound(user model.GithubUser) {
+templ PageGithubUserNotFound(user sqlc.GithubUser) {
 	<div>
         <p>
-            Could not find Github user: "<a href={ templ.URL(user.URI().Text()) }>{ user.URI().Text() }</a>"
+            Could not find Github user: "<a href={ templ.URL(fmt.Sprintf("https://github.com/%v", user.Name)) }>{ fmt.Sprintf("https://github.com/%v", user.Name) }</a>"
         </p>
     </div>
 }

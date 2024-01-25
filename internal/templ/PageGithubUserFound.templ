@@ -1,14 +1,15 @@
 package templ
 
 import (
-    "github.com/cbugk/iamfeelingcody/internal/model"
+    "fmt"
+    "github.com/cbugk/iamfeelingcody/internal/sqlc"
 )
 
 
-templ PageGithubUserFound(user model.GithubUser) {
+templ PageGithubUserFound(user sqlc.GithubUser) {
 	<div>
         <p>
-            Found Github user: "<a href={ templ.URL(user.URI().Text()) }>{ user.URI().Text() }</a>"
+            Found Github user: "<a href={ templ.URL(fmt.Sprintf("https://github.com/%v", user.Name)) }>{ fmt.Sprintf("https://github.com/%v", user.Name) }</a>"
         </p>
     </div>
 }

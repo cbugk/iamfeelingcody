@@ -40,18 +40,28 @@ installSqlc() {
   go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 }
 
+installGosqlite3() {
+  go install github.com/mattn/go-sqlite3@latest
+}
+
 install() {
   installGo
   installTempl
   installGoTelemetry
   installGopls
   installSqlc
+  installGosqlite3
 }; export -f install
 
 #---------------
 templGenerate() {
   templ generate ./cmd ./internal ./pkg ./tests
 }; export -f templGenerate
+
+sqlcGenerate() {
+  sqlc vet -f internal/sqlc/sqlc.yaml
+  sqlc generate -f internal/sqlc/sqlc.yaml
+}; export -f sqlcGenerate
 
 goModTidy() {
   go mod tidy
@@ -63,9 +73,25 @@ goModVendor() {
 
 #---------------
 prerun() {
-  templGenerate
-  goModTidy
-  goModVendor
+  ( \
+    echo "[TEMPL]"; \
+    templGenerate; \
+  ) && ( \
+    echo "[SQLC]"; \
+    sqlcGenerate; \
+  ) && ( \
+    echo "[TIDY]"; \
+    goModTidy; \
+  ) && ( \
+    echo "[VENDOR]"; \
+    goModVendor; \
+  )
+
+  echo
+}
+
+clean() {
+  rm -rf ./internal/{sqlc,templ}/*.go
 }
 
 build() {
@@ -83,9 +109,13 @@ run() {
 
 runbin() {
   mv ./bin/iamfeelingcody{,.bak}; \
-  mv ./bin/iamfeelingcody.sqlite{,.bak}; \
   build && \
   ./bin/iamfeelingcody
+}
+
+cleanrunbin() {
+  mv ./bin/iamfeelingcody.sqlite{,.bak}
+  clean && runbin
 }
 
 #---------------

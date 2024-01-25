@@ -11,10 +11,11 @@ import "io"
 import "bytes"
 
 import (
-	"github.com/cbugk/iamfeelingcody/internal/model"
+	"fmt"
+	"github.com/cbugk/iamfeelingcody/internal/sqlc"
 )
 
-func PageGithubUserFound(user model.GithubUser) templ.Component {
+func PageGithubUserFound(user sqlc.GithubUser) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -40,7 +41,7 @@ func PageGithubUserFound(user model.GithubUser) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var3 templ.SafeURL = templ.URL(user.URI().Text())
+		var templ_7745c5c3_Var3 templ.SafeURL = templ.URL(fmt.Sprintf("https://github.com/%v", user.Name))
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var3)))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -50,9 +51,9 @@ func PageGithubUserFound(user model.GithubUser) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(user.URI().Text())
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("https://github.com/%v", user.Name))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templ/PageGithubUserFound.templ`, Line: 10, Col: 92}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templ/PageGithubUserFound.templ`, Line: 11, Col: 152}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {

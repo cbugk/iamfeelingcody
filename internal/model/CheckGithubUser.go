@@ -1,11 +1,12 @@
 package model
 
 import (
+	"fmt"
 	"net/http"
 )
 
-func CheckGithubUser(user GithubUser) error {
-	userURI := user.URI().Text()
+func CheckGithubUser(name string) error {
+	userURI := fmt.Sprintf("https://github.com/%v", name)
 
 	resp, err := http.Get(userURI)
 	if err != nil {
