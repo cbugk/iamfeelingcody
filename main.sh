@@ -41,7 +41,7 @@ installSqlc() {
 }
 
 installGosqlite3() {
-  go install github.com/mattn/go-sqlite3@latest
+  go get github.com/mattn/go-sqlite3@latest
 }
 
 install() {
@@ -91,7 +91,8 @@ prerun() {
 }
 
 clean() {
-  rm -rf ./internal/{sqlc,templ}/*.go
+  rm -f ./internal/sqlc/{db,models,query.sql}.go
+  rm -f ./internal/templ/*.go
 }
 
 build() {
@@ -119,11 +120,6 @@ cleanrunbin() {
 }
 
 #---------------
-#if [ "${0}" = 'source' ] || [ ${0} = '.' ];then
-#  echo Script must not be sourced
-#  exit 1
-#fi
-
 source "$(dirname "$(realpath "${0}")")/env.sh"
 
 # Not injection safe

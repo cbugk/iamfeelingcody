@@ -11,15 +11,15 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/cbugk/iamfeelingcody/internal/glob"
 	"github.com/cbugk/iamfeelingcody/internal/routes"
+	"github.com/cbugk/iamfeelingcody/internal/sqlc"
 )
 
 func main() {
 	fmt.Println("Started iamfeelingcody")
 
 	// initialize db
-	_ = glob.Q()
+	_ = sqlc.Q()
 
 	port := 8000
 	addr := fmt.Sprintf("localhost:%d", port)

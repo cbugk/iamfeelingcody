@@ -5,13 +5,13 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cbugk/iamfeelingcody/internal/glob"
+	"github.com/cbugk/iamfeelingcody/internal/sqlc"
 	"github.com/cbugk/iamfeelingcody/internal/templ"
 	"github.com/julienschmidt/httprouter"
 )
 
 func users(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	users, err := glob.Q().ListGithubUsers(context.Background())
+	users, err := sqlc.Q().ListGithubUsers(context.Background())
 	if err != nil {
 		log.Fatal(err.Error())
 	}

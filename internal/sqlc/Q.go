@@ -1,35 +1,33 @@
-package glob
+package sqlc
 
 import (
 	"context"
 	"database/sql"
 	_ "embed"
-	"path"
 	"sync"
 
-	"github.com/cbugk/iamfeelingcody/internal/binpath"
-	"github.com/cbugk/iamfeelingcody/internal/sqlc"
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var q *sqlc.Queries
+var q *Queries
 var once sync.Once
 
-func Q() *sqlc.Queries {
+func Q() *Queries {
 	once.Do(func() {
 		initDB()
 	})
 	return q
 }
 
-// /go:embed ../sqlc/schema.sql
+//go:embed schema.sql
 var schema string
 
 func initDB() error {
 	ctx := context.Background()
 
 	// create tables
-	db, err := sql.Open("sqlite3", path.Join(binpath.Dir(), "iamfeelingcody.sqlite"))
+	//db, err := sql.Open("sqlite3", path.Join(binpath.Dir(), "iamfeelingcody.sqlite"))
+	db, err := sql.Open("sqlite3", ":memory:")
 	if err != nil {
 		return err
 	}
@@ -39,7 +37,7 @@ func initDB() error {
 		return err
 	}
 
-	q = sqlc.New(db)
+	q = New(db)
 
 	return nil
 }

@@ -6,8 +6,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cbugk/iamfeelingcody/internal/glob"
 	"github.com/cbugk/iamfeelingcody/internal/model"
+	"github.com/cbugk/iamfeelingcody/internal/sqlc"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -19,7 +19,7 @@ func postUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 	if err := model.CheckGithubUser(name); err == nil {
 		w.WriteHeader(http.StatusCreated)
-		_, err = glob.Q().CreateGithubUser(ctx, name)
+		_, err = sqlc.Q().CreateGithubUser(ctx, name)
 		if err != nil {
 			log.Fatal(err.Error())
 		}
