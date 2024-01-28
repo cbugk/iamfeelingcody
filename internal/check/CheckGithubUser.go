@@ -1,4 +1,4 @@
-package model
+package check
 
 import (
 	"fmt"

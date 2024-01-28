@@ -1,7 +1,4 @@
-package model
-
-import (
-)
+package check
 
 type ErrorGithubUserNotFound struct{}
 

@@ -93,6 +93,7 @@ prerun() {
 clean() {
   rm -f ./internal/sqlc/{db,models,query.sql}.go
   rm -f ./internal/templ/*.go
+  rm -f ./bin/*
 }
 
 build() {
@@ -109,13 +110,11 @@ run() {
 }; export -f run
 
 runbin() {
-  mv ./bin/iamfeelingcody{,.bak}; \
   build && \
   ./bin/iamfeelingcody
 }
 
 cleanrunbin() {
-  mv ./bin/iamfeelingcody.sqlite{,.bak}
   clean && runbin
 }
 
