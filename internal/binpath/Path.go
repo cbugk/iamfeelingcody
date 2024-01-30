@@ -2,7 +2,7 @@ package binpath
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"sync"
 )
 
@@ -17,8 +17,8 @@ func Path() (string, string) {
 			panic(err)
 		}
 
-		dir = path.Dir(e)
-		base = path.Base(e)
+		dir = filepath.Dir(e)
+		base = filepath.Base(e)
 	})
 
 	return dir, base

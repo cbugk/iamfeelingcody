@@ -1,4 +1,4 @@
-CREATE TABLE GithubUsers (
+CREATE TABLE IF NOT EXISTS GithubUsers (
   id   INTEGER PRIMARY KEY,
   name TEXT    NOT NULL
 );

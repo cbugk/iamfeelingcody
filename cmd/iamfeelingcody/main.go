@@ -8,9 +8,11 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
 	"syscall"
 	"time"
 
+	"github.com/cbugk/iamfeelingcody/internal/binpath"
 	"github.com/cbugk/iamfeelingcody/internal/routes"
 	"github.com/cbugk/iamfeelingcody/internal/sqlc"
 )
@@ -19,7 +21,7 @@ func main() {
 	fmt.Println("Started iamfeelingcody")
 
 	// initialize db
-	_ = sqlc.Q()
+	sqlc.InitDB(filepath.Join(binpath.Dir(), "iamfeelingcody.sqlite"))
 
 	port := 8000
 	addr := fmt.Sprintf("localhost:%d", port)
