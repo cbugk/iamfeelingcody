@@ -17,7 +17,10 @@ func postUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	r.ParseForm()
 	name := r.Form.Get("name")
 
-	if err := check.CheckGithubUser(name); err == nil {
+	// name not provided
+	if len(name) == 0 {
+		w.WriteHeader(http.StatusNoContent)
+	} else if err := check.CheckGithubUser(name); err == nil {
 		w.WriteHeader(http.StatusCreated)
 		_, err = sqlc.Q().CreateGithubUser(ctx, name)
 		if err != nil {
