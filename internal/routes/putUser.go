@@ -11,7 +11,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func postUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func putUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	ctx := context.Background()
 
 	r.ParseForm()

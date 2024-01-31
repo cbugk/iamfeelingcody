@@ -15,7 +15,7 @@ func Router() *httprouter.Router {
 	mux.GET("/find", find)
 
 	mux.GET("/users", users)
-	mux.POST("/user", postUser)
+	mux.POST("/user", putUser)
 
 	return mux
 }
