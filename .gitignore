@@ -1,9 +1,18 @@
+#########################
+# Directory Acrobatics  #
+#########################
+# For Leaf exceptions to work
+# parent directories must be excepted
+# yet their content ignored thereafter
+
 # Output binaries
 bin/*
+!bin/public
+bin/public/*
 
-#####################
-# Global exceptions #
-#####################
+#########################
+# Leaf exceptions     #
+#########################
 
 # Keep any gitkeep file
 !**/.gitkeep
