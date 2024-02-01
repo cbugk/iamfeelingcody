@@ -33,3 +33,7 @@ func Dir() string {
 	dir, _ := Path()
 	return dir
 }
+
+func PublicDir() string {
+	return filepath.Join(Dir(), "public")
+}

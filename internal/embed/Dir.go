@@ -5,11 +5,11 @@ import (
 	"io/fs"
 )
 
-//go:embed public
-var public embed.FS
+//go:embed static
+var static embed.FS
 
 func Dir() fs.FS {
-	sub, err := fs.Sub(public, "public")
+	sub, err := fs.Sub(static, "static")
 	if err != nil {
 		panic(err)
 	}

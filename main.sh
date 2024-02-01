@@ -93,7 +93,12 @@ prerun() {
 clean() {
   rm -f ./internal/sqlc/{db,models,query.sql}.go
   rm -f ./internal/templ/*.go
-  rm -f ./bin/*
+  
+  # `tail -n+2` excludes directory itself
+  # `grep -v` used to exclude by regex
+  find ./bin | tail -n+2 | \
+    grep -v '^./bin/public.*$' | \
+    xargs -i rm -rf {}
 }
 
 build() {
