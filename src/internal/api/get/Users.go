@@ -1,4 +1,4 @@
-package routes
+package get
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func users(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func Users(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	users, err := sqlc.Q().ListGithubUsers(context.Background())
 	if err != nil {
 		log.Fatal(err.Error())

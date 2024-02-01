@@ -1,4 +1,4 @@
-package routes
+package put
 
 import (
 	"context"
@@ -11,29 +11,31 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func putUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func User(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	ctx := context.Background()
 
 	r.ParseForm()
 	name := r.Form.Get("name")
 
-	// name not provided
 	if len(name) == 0 {
+		// Name not provided
 		w.WriteHeader(http.StatusNoContent)
-	} else if _, err := sqlc.Q().GetGithubUser(ctx, name); err != nil {
+	} else if _, err := sqlc.Q().GetGithubUser(ctx, name); err == nil {
+		// User already created
+		w.WriteHeader(http.StatusFound)
+	} else {
 		if err := check.CheckGithubUser(name); err == nil {
-
+			// Github user's url exists
 			w.WriteHeader(http.StatusCreated)
-			_, err = sqlc.Q().CreateGithubUser(ctx, name)
-			if err != nil {
+			if _, err = sqlc.Q().CreateGithubUser(ctx, name); err != nil {
 				log.Fatal(err.Error())
 			}
 		} else if errors.Is(err, &check.ErrorGithubUserNotFound{}) {
+			// Github user's url does not exist
 			w.WriteHeader(http.StatusNoContent)
 		} else {
+			// Unanticipated error
 			log.Fatal(err.Error())
 		}
-	} else {
-		w.WriteHeader(http.StatusFound)
 	}
 }

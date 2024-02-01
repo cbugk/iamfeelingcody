@@ -12,9 +12,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/cbugk/iamfeelingcody/src/internal/binpath"
-	"github.com/cbugk/iamfeelingcody/src/internal/routes"
+	"github.com/cbugk/iamfeelingcody/src/internal/route"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
+	"github.com/cbugk/iamfeelingcody/src/pkg/binpath"
 )
 
 func main() {
@@ -29,7 +29,7 @@ func main() {
 
 	server := &http.Server{
 		Addr:    addr,
-		Handler: routes.Router(),
+		Handler: route.Router(),
 	}
 
 	idleConnsClosed := make(chan struct{})
@@ -53,7 +53,7 @@ func main() {
 		close(idleConnsClosed)
 	}()
 
-	//http.HandleFunc("/", routes.Route)
+	//http.HandleFunc("/", route.Route)
 	//if err := http.ListenAndServe(addr, nil); err != nil &&
 	if err := server.ListenAndServe(); err != nil &&
 		errors.Is(err, http.ErrServerClosed) {

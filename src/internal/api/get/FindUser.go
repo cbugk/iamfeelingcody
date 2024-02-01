@@ -1,4 +1,4 @@
-package routes
+package get
 
 import (
 	"context"
@@ -12,7 +12,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func find(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
+func FindUser(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 	// Empty name
 	if name := r.URL.Query().Get("name"); name == "" {
 		templ.PageFindErrProvideName().Render(r.Context(), w)

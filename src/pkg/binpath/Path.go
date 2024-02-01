@@ -23,17 +23,3 @@ func Path() (string, string) {
 
 	return dir, base
 }
-
-func Base() string {
-	_, base := Path()
-	return base
-}
-
-func Dir() string {
-	dir, _ := Path()
-	return dir
-}
-
-func PublicDir() string {
-	return filepath.Join(Dir(), "public")
-}
