@@ -12,7 +12,7 @@ import "bytes"
 
 import (
 	"fmt"
-	"github.com/cbugk/iamfeelingcody/internal/sqlc"
+	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 )
 
 func PageFoundUsers(users []sqlc.GithubUser) templ.Component {

@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cbugk/iamfeelingcody/internal/sqlc"
-	"github.com/cbugk/iamfeelingcody/internal/templ"
+	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
+	"github.com/cbugk/iamfeelingcody/src/internal/templ"
 	"github.com/julienschmidt/httprouter"
 )
 

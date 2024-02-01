@@ -104,8 +104,8 @@ clean() {
 build() {
   prerun
 
-  go build -o ./bin/iamfeelingcody cmd/iamfeelingcody/*.go && \
-  chmod u+x ./bin/iamfeelingcody
+  go build -o ../bin/iamfeelingcody cmd/iamfeelingcody/*.go && \
+  chmod u+x ../bin/iamfeelingcody
 }; export -f build
 
 run() {
@@ -116,7 +116,7 @@ run() {
 
 runbin() {
   build && \
-  ./bin/iamfeelingcody
+  (cd ../bin && ./iamfeelingcody)
 }
 
 cleanrunbin() {

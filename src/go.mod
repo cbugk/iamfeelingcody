@@ -1,4 +1,4 @@
-module github.com/cbugk/iamfeelingcody
+module github.com/cbugk/iamfeelingcody/src
 
 go 1.21.5
 

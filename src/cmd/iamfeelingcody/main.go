@@ -12,9 +12,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/cbugk/iamfeelingcody/internal/binpath"
-	"github.com/cbugk/iamfeelingcody/internal/routes"
-	"github.com/cbugk/iamfeelingcody/internal/sqlc"
+	"github.com/cbugk/iamfeelingcody/src/internal/binpath"
+	"github.com/cbugk/iamfeelingcody/src/internal/routes"
+	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 )
 
 func main() {

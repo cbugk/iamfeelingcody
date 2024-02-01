@@ -12,10 +12,10 @@ import "bytes"
 
 import (
 	"fmt"
-	"github.com/cbugk/iamfeelingcody/internal/sqlc"
+	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 )
 
-func PageGithubUserFound(user sqlc.GithubUser) templ.Component {
+func PageGithubUserNotFound(user sqlc.GithubUser) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -32,7 +32,7 @@ func PageGithubUserFound(user sqlc.GithubUser) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var2 := `Found Github user: "`
+		templ_7745c5c3_Var2 := `Could not find Github user: "`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -53,7 +53,7 @@ func PageGithubUserFound(user sqlc.GithubUser) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("https://github.com/%v", user.Name))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templ/PageGithubUserFound.templ`, Line: 11, Col: 152}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `internal/templ/PageGithubUserNotFound.templ`, Line: 10, Col: 161}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {

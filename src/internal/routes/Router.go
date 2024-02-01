@@ -3,8 +3,8 @@ package routes
 import (
 	"net/http"
 
-	"github.com/cbugk/iamfeelingcody/internal/binpath"
-	"github.com/cbugk/iamfeelingcody/internal/embed"
+	"github.com/cbugk/iamfeelingcody/src/internal/binpath"
+	"github.com/cbugk/iamfeelingcody/src/internal/embed"
 	"github.com/julienschmidt/httprouter"
 )
 
