@@ -11,16 +11,16 @@ import (
 )
 
 func Router() *httprouter.Router {
-	mux := httprouter.New()
+	r := httprouter.New()
 
-	mux.ServeFiles("/static/*filepath", http.FS(embed.Dir()))
-	mux.ServeFiles("/public/*filepath", http.Dir(binpath.PublicDir()))
+	r.ServeFiles("/static/*filepath", http.FS(embed.Dir()))
+	r.ServeFiles("/public/*filepath", http.Dir(binpath.PublicDir()))
 
-	mux.GET("/", root)
-	mux.GET("/api/v1/finduser", get.FindUser)
+	r.GET("/", root)
+	r.GET("/api/v1/finduser", get.FindUser)
 
-	mux.GET("/api/v1/users", get.Users)
-	mux.POST("/api/v1/user", put.User)
+	r.GET("/api/v1/users", get.Users)
+	r.PUT("/api/v1/user", put.User)
 
-	return mux
+	return r
 }
