@@ -9,6 +9,7 @@ export GOPATH="${GOPATH_PARENT}/go"
 
 export GO_VERSION="1.21.5"
 export TEMPL_VERSION="v0.2.501"
+export GOSQLITE3_VERSION="v1.14.22"
 
 export BIN_GO="${GOPATH}/bin/go"
 export BIN_TEMPL="${GOPATH}/bin/templ"

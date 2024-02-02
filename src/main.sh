@@ -41,7 +41,7 @@ installSqlc() {
 }
 
 installGosqlite3() {
-  go get github.com/mattn/go-sqlite3@latest
+  go get "github.com/mattn/go-sqlite3@${GOSQLITE3_VERSION}"
 }
 
 install() {
