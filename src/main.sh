@@ -1,4 +1,4 @@
-#!/bin/bash
+m!/bin/bash
 
 #---------------
 installGo() {
@@ -96,8 +96,8 @@ clean() {
   
   # `tail -n+2` excludes directory itself
   # `grep -v` used to exclude by regex
-  find ./bin | tail -n+2 | \
-    grep -v '^./bin/public.*$' | \
+  find ../bin | tail -n+2 | \
+    grep -v '^../bin/public.*$' | \
     xargs -i rm -rf {}
 }
 
