@@ -55,7 +55,7 @@ install() {
 
 #---------------
 templGenerate() {
-  templ generate ./cmd ./internal ./pkg ./tests
+  templ generate .
 }; export -f templGenerate
 
 sqlcGenerate() {
@@ -91,12 +91,16 @@ prerun() {
 }
 
 clean() {
+  # selectively delete auto-generated go files only
   rm -f ./internal/sqlc/{db,models,query.sql}.go
-  rm -f ./internal/templ/*.go
+
+  find ./internal/templ -name '*.go' | \
+    xargs -i rm -rf {}
   
   # `tail -n+2` excludes directory itself
   # `grep -v` used to exclude by regex
-  find ../bin | tail -n+2 | \
+  find ../bin | \
+    tail -n+2 | \
     grep -v '^../bin/public.*$' | \
     xargs -i rm -rf {}
 }

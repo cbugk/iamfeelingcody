@@ -1,11 +1,11 @@
-package templ
+package page
 
 import (
     "fmt"
     "github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 )
 
-templ PageFoundUsers(users []sqlc.GithubUser) {
+templ FoundUsers(users []sqlc.GithubUser) {
     <div>
         <table>
             for _, user := range users {

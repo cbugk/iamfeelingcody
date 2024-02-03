@@ -1,0 +1,14 @@
+package page
+
+import (
+    "fmt"
+)
+
+
+templ GithubUserFound(name string) {
+	<div>
+        <p>
+            Found Github user: "<a href={ templ.URL(fmt.Sprintf("https://github.com/%v", name)) }>{ fmt.Sprintf("https://github.com/%v", name) }</a>"
+        </p>
+    </div>
+}

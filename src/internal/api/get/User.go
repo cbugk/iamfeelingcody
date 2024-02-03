@@ -19,6 +19,7 @@ func User(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		// Empty name
 		if m, err := json.Marshal(map[string]interface{}{
 			"Error":     "provide name",
+			"Username":  name,
 			"ErrorCode": 1,
 		}); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -28,7 +29,17 @@ func User(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			w.WriteHeader(http.StatusNotAcceptable)
 			w.Write(m)
 		}
-	} else if user, err := sqlc.Q().GetGithubUser(context.Background(), name); err == nil {
+	} else if user, err := sqlc.Q().GetGithubUser(context.Background(), name); err != nil {
+		if errors.As(err, &sql.ErrNoRows) {
+			// Github user not found
+			w.WriteHeader(http.StatusNoContent)
+		} else {
+			// Unknown error
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("{}"))
+			log.Println(err.Error())
+		}
+	} else {
 		// Github user found
 		if m, err := json.Marshal(user); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -38,23 +49,5 @@ func User(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			w.WriteHeader(http.StatusOK)
 			w.Write(m)
 		}
-	} else if errors.As(err, &sql.ErrNoRows) {
-		// Github user not found
-		if m, err := json.Marshal(map[string]interface{}{
-			"Error":   "user not found",
-			"ErrCode": 2,
-		}); err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("{}"))
-			log.Println(err.Error())
-		} else {
-			w.WriteHeader(http.StatusNoContent)
-			w.Write(m)
-		}
-	} else {
-		// Unknown error
-		w.WriteHeader(http.StatusInternalServerError)
-		w.Write([]byte("{}"))
-		log.Println(err.Error())
 	}
 }
