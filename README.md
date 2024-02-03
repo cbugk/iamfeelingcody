@@ -28,5 +28,5 @@ To get:
 
 Run:
 ```sh
-(cd ~/prj/iamfeelingcody/src; ./main.sh install; source ./env.sh; code .)
+(cd ~/prj/iamfeelingcody/src && ./main.sh install && source ./env.sh && code ..)
 ```
