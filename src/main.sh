@@ -1,4 +1,4 @@
-m!/bin/bash
+#!/bin/env bash
 
 #---------------
 installGo() {
