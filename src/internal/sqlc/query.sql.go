@@ -11,17 +11,33 @@ import (
 
 const createGithubUser = `-- name: CreateGithubUser :one
 INSERT INTO GithubUsers (
-  name
+  name,
+  alph,
+  present
 ) VALUES (
+  ?,
+  ?,
   ?
 )
-RETURNING id, name
+RETURNING id, timestamp, name, alph, present
 `
 
-func (q *Queries) CreateGithubUser(ctx context.Context, name string) (GithubUser, error) {
-	row := q.db.QueryRowContext(ctx, createGithubUser, name)
+type CreateGithubUserParams struct {
+	Name    string
+	Alph    int64
+	Present bool
+}
+
+func (q *Queries) CreateGithubUser(ctx context.Context, arg CreateGithubUserParams) (GithubUser, error) {
+	row := q.db.QueryRowContext(ctx, createGithubUser, arg.Name, arg.Alph, arg.Present)
 	var i GithubUser
-	err := row.Scan(&i.ID, &i.Name)
+	err := row.Scan(
+		&i.ID,
+		&i.Timestamp,
+		&i.Name,
+		&i.Alph,
+		&i.Present,
+	)
 	return i, err
 }
 
@@ -36,19 +52,44 @@ func (q *Queries) DeleteGithubUser(ctx context.Context, id int64) error {
 }
 
 const getGithubUser = `-- name: GetGithubUser :one
-SELECT id, name FROM GithubUsers
+SELECT id, timestamp, name, alph, present FROM GithubUsers
 WHERE name = ? LIMIT 1
 `
 
 func (q *Queries) GetGithubUser(ctx context.Context, name string) (GithubUser, error) {
 	row := q.db.QueryRowContext(ctx, getGithubUser, name)
 	var i GithubUser
-	err := row.Scan(&i.ID, &i.Name)
+	err := row.Scan(
+		&i.ID,
+		&i.Timestamp,
+		&i.Name,
+		&i.Alph,
+		&i.Present,
+	)
+	return i, err
+}
+
+const highestRalphUser = `-- name: HighestRalphUser :one
+SELECT id, timestamp, name, alph, present FROM GithubUsers
+ORDER BY alph DESC
+LIMIT 1
+`
+
+func (q *Queries) HighestRalphUser(ctx context.Context) (GithubUser, error) {
+	row := q.db.QueryRowContext(ctx, highestRalphUser)
+	var i GithubUser
+	err := row.Scan(
+		&i.ID,
+		&i.Timestamp,
+		&i.Name,
+		&i.Alph,
+		&i.Present,
+	)
 	return i, err
 }
 
 const listGithubUsers = `-- name: ListGithubUsers :many
-SELECT id, name FROM GithubUsers
+SELECT id, timestamp, name, alph, present FROM GithubUsers
 ORDER BY name
 `
 
@@ -61,7 +102,13 @@ func (q *Queries) ListGithubUsers(ctx context.Context) ([]GithubUser, error) {
 	var items []GithubUser
 	for rows.Next() {
 		var i GithubUser
-		if err := rows.Scan(&i.ID, &i.Name); err != nil {
+		if err := rows.Scan(
+			&i.ID,
+			&i.Timestamp,
+			&i.Name,
+			&i.Alph,
+			&i.Present,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)
@@ -79,7 +126,7 @@ const updateGithubUser = `-- name: UpdateGithubUser :one
 UPDATE GithubUsers
 set name = ?
 WHERE id = ?
-RETURNING id, name
+RETURNING id, timestamp, name, alph, present
 `
 
 type UpdateGithubUserParams struct {
@@ -90,6 +137,12 @@ type UpdateGithubUserParams struct {
 func (q *Queries) UpdateGithubUser(ctx context.Context, arg UpdateGithubUserParams) (GithubUser, error) {
 	row := q.db.QueryRowContext(ctx, updateGithubUser, arg.Name, arg.ID)
 	var i GithubUser
-	err := row.Scan(&i.ID, &i.Name)
+	err := row.Scan(
+		&i.ID,
+		&i.Timestamp,
+		&i.Name,
+		&i.Alph,
+		&i.Present,
+	)
 	return i, err
 }

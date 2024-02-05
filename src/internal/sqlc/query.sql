@@ -8,8 +8,12 @@ ORDER BY name;
 
 -- name: CreateGithubUser :one
 INSERT INTO GithubUsers (
-  name
+  name,
+  alph,
+  present
 ) VALUES (
+  ?,
+  ?,
   ?
 )
 RETURNING *;
@@ -23,3 +27,8 @@ RETURNING *;
 -- name: DeleteGithubUser :exec
 DELETE FROM GithubUsers
 WHERE id = ?;
+
+-- name: HighestRalphUser :one
+SELECT * FROM GithubUsers
+ORDER BY alph DESC
+LIMIT 1

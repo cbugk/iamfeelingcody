@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/cbugk/iamfeelingcody/src/internal/check"
+	"github.com/cbugk/iamfeelingcody/src/internal/ralpv"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 	"github.com/julienschmidt/httprouter"
 )
@@ -35,7 +36,7 @@ func User(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 		}
 	} else if err := check.CheckGithubUser(name); err == nil {
 		// Github user's url exists
-		if user, err = sqlc.Q().CreateGithubUser(ctx, name); err != nil {
+		if user, err = sqlc.Q().CreateGithubUser(ctx, sqlc.CreateGithubUserParams{name, ralpv.NameToRalpv(name), true}); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("{}"))
 			log.Println(err.Error())

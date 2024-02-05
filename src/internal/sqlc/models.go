@@ -4,9 +4,14 @@
 
 package sqlc
 
-import ()
+import (
+	"database/sql"
+)
 
 type GithubUser struct {
-	ID   int64
-	Name string
+	ID        int64
+	Timestamp sql.NullTime
+	Name      string
+	Alph      int64
+	Present   bool
 }

@@ -1,23 +1,23 @@
 package main
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
-	"os/signal"
+
 	"path/filepath"
-	"syscall"
-	"time"
 
 	"github.com/cbugk/iamfeelingcody/src/internal/route"
+	"github.com/cbugk/iamfeelingcody/src/internal/routine"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 	"github.com/cbugk/iamfeelingcody/src/pkg/binpath"
+	pkgRoutine "github.com/cbugk/iamfeelingcody/src/pkg/routine"
 )
 
 func main() {
+	workerThreadCount := 1
+
 	fmt.Println("Started iamfeelingcody")
 
 	// initialize db
@@ -33,25 +33,16 @@ func main() {
 	}
 
 	idleConnsClosed := make(chan struct{})
-	go func() {
-		sigInt := make(chan os.Signal, 1)
-		signal.Notify(sigInt, os.Interrupt)
-		signal.Notify(sigInt, syscall.SIGTERM)
-		<-sigInt
+	pkgRoutine.GracefulShutdown(server, idleConnsClosed)
 
-		log.Println("service interrupt recieved")
-
-		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-		defer cancel()
-
-		if err := server.Shutdown(ctx); err != nil {
-			log.Printf("Http server shutdown error: %v", err)
-		}
-
-		log.Println("Http server shutdown complete")
-
-		close(idleConnsClosed)
-	}()
+	// Channel for user finders
+	names := make(chan string, workerThreadCount)
+	// Run task assigner
+	routine.AssignNextName(names)
+	// Run workers
+	for i := 0; i < workerThreadCount; i++ {
+		routine.TryAddUser(names)
+	}
 
 	//http.HandleFunc("/", route.Route)
 	//if err := http.ListenAndServe(addr, nil); err != nil &&
