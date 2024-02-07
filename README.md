@@ -1,5 +1,17 @@
 # iamfeelingcody
-Golang, Templ, and Htmx toy project.
+Golang toy project. This app is to give a psuedo-random Github user on request.
+
+Makes use of:
+* httprouter (TODO -> fasthttp/router)
+* Sqlc (for SQLite)
+* Htmx and Templ
+
+Currently scripting is the backbone of development.
+```
+// TODO towards the end of project
+defer("go gen")
+defer("openapi3")
+```
 
 ## Test it!
 Workdir is always `src`
