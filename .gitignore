@@ -10,6 +10,13 @@ bin/*
 !bin/public
 bin/public/*
 
+# Auto-generated sqlc sqlite files
+src/internal/sqlc/sqlite
+
+# Auto-generated templ files
+src/internal/templ/comp/*.go
+src/internal/templ/page/*.go
+
 #########################
 # Leaf exceptions     #
 #########################
