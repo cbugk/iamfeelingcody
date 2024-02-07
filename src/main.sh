@@ -91,8 +91,8 @@ prerun() {
 }
 
 clean() {
-  # selectively delete auto-generated go files only
-  rm -f ./internal/sqlc/{db,models,query.sql}.go
+  # delete auto-generated sqlite go files
+  rm -f ./internal/sqlc/sqlite/*.go
 
   find ./internal/templ -name '*.go' | \
     xargs -i rm -rf {}

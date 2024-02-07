@@ -8,6 +8,7 @@ import (
 	"path/filepath"
 	"sync"
 
+	"github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -31,7 +32,7 @@ func initDB(path string) error {
 		return err
 	}
 
-	q = New(db)
+	q = sqlite.New(db)
 
 	return nil
 }

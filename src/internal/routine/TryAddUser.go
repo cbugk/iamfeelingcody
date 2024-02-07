@@ -8,6 +8,7 @@ import (
 	"github.com/cbugk/iamfeelingcody/src/internal/check"
 	"github.com/cbugk/iamfeelingcody/src/internal/ralpv"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
+	"github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
 )
 
 func TryAddUser(names <-chan string) {
@@ -24,7 +25,7 @@ func TryAddUser(names <-chan string) {
 				log.Println(user.Alph, user.Name)
 			} else if err := check.CheckGithubUser(name); err == nil {
 				// Github user's url exists
-				if user, err = sqlc.Q().CreateGithubUser(context.Background(), sqlc.CreateGithubUserParams{name, ralpv.NameToRalpv(name), true}); err != nil {
+				if user, err = sqlc.Q().CreateGithubUser(context.Background(), sqlite.CreateGithubUserParams{name, ralpv.NameToRalpv(name), true}); err != nil {
 					log.Println(err.Error())
 				} else {
 					log.Println(user.Alph, user.Name)
@@ -32,7 +33,7 @@ func TryAddUser(names <-chan string) {
 			} else if errors.Is(err, &check.ErrorGithubUserNotFound{}) {
 				// Github user's url does not exist
 				log.Println("No such user in Github")
-				if user, err = sqlc.Q().CreateGithubUser(context.Background(), sqlc.CreateGithubUserParams{name, ralpv.NameToRalpv(name), false}); err != nil {
+				if user, err = sqlc.Q().CreateGithubUser(context.Background(), sqlite.CreateGithubUserParams{name, ralpv.NameToRalpv(name), false}); err != nil {
 					log.Println(err.Error())
 				} else {
 					log.Println(user.Alph, user.Name)

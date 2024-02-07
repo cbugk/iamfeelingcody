@@ -14,7 +14,7 @@ import (
 func AssignNextName(names chan<- string) {
 	go func() {
 		for {
-			user, err := sqlc.Q().HighestRalphUser(context.Background())
+			user, err := sqlc.Q().HighestRalpvUser(context.Background())
 			if err != nil {
 				if errors.As(err, &sql.ErrNoRows) {
 					names <- ralpv.RalpvToName(0)

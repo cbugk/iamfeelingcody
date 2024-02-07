@@ -1,7 +1,11 @@
 package sqlc
 
-var q *Queries
+import (
+	"github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
+)
 
-func Q() *Queries {
+var q *sqlite.Queries
+
+func Q() *sqlite.Queries {
 	return q
 }

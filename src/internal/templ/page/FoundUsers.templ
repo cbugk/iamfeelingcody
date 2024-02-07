@@ -2,10 +2,10 @@ package page
 
 import (
     "fmt"
-    "github.com/cbugk/iamfeelingcody/src/internal/sqlc"
+    "github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
 )
 
-templ FoundUsers(users []sqlc.GithubUser) {
+templ FoundUsers(users []sqlite.GithubUser) {
     <div>
         <table>
             for _, user := range users {
