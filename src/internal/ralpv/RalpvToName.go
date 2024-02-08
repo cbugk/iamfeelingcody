@@ -8,7 +8,7 @@ func RalpvToName(ralpv int64) string {
 	if ralpv < 0 {
 		return ""
 	} else {
-		// Base of Ralphv
+		// Base of Ralpv
 		base := len(alphanumicToDecimal)
 		var nameBuilder strings.Builder
 		dividend := ralpv
