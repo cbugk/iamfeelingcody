@@ -1,7 +1,7 @@
 -- name: CreateGithubUser :one
 INSERT INTO GithubUsers (
   name,
-  alph,
+  ralpv,
   present
 ) VALUES (
   ?,

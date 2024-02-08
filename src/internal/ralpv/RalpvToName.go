@@ -2,14 +2,14 @@ package ralpv
 
 import "strings"
 
-// Name to ralpv (reserve alphanumeric value).
+// Name to ralpv (reserve alphanumeric (and dash) value).
 // Similar to hexadecimal numbers, but with alphanumeric and left-to-right values
 func RalpvToName(ralpv int64) string {
 	if ralpv < 0 {
 		return ""
 	} else {
 		// Base of Ralpv
-		base := len(alphanumicToDecimal)
+		base := len(alpnumdashToDecimal)
 		var nameBuilder strings.Builder
 		dividend := ralpv
 
@@ -17,7 +17,7 @@ func RalpvToName(ralpv int64) string {
 		for {
 			remainder := dividend % int64(base)
 
-			for k, v := range alphanumicToDecimal {
+			for k, v := range alpnumdashToDecimal {
 				if int64(v) == remainder {
 					nameBuilder.WriteString(k)
 					break

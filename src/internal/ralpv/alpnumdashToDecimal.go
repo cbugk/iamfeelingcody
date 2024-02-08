@@ -1,7 +1,7 @@
 package ralpv
 
 // For optimising to name to ralpv calculation, as a consequence ralpv to name is inefficient
-var alphanumicToDecimal = map[string]int{
+var alpnumdashToDecimal = map[string]int{
 	"0": 0,
 	"1": 1,
 	"2": 2,
@@ -38,4 +38,5 @@ var alphanumicToDecimal = map[string]int{
 	"x": 33,
 	"y": 34,
 	"z": 35,
+	"-": 36,
 }

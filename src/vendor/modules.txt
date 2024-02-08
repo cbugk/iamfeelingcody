@@ -2,6 +2,9 @@
 ## explicit; go 1.20
 github.com/a-h/templ
 github.com/a-h/templ/safehtml
+# github.com/dchest/uniuri v1.2.0
+## explicit; go 1.19
+github.com/dchest/uniuri
 # github.com/julienschmidt/httprouter v1.3.0
 ## explicit; go 1.7
 github.com/julienschmidt/httprouter
