@@ -7,7 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cbugk/iamfeelingcody/src/internal/check"
+	"github.com/cbugk/iamfeelingcody/src/internal/github"
 	"github.com/cbugk/iamfeelingcody/src/internal/ralpv"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
@@ -35,7 +35,7 @@ func User(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			w.WriteHeader(http.StatusFound)
 			w.Write(m)
 		}
-	} else if err := check.CheckGithubUser(name); err == nil {
+	} else if err := github.CheckGithubUser(name); err == nil {
 		// Github user's url exists
 		if user, err = sqlc.Q().CreateGithubUser(ctx, sqlite.CreateGithubUserParams{name, ralpv.NameToRalpv(name), true}); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -49,7 +49,7 @@ func User(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 			w.WriteHeader(http.StatusCreated)
 			w.Write(m)
 		}
-	} else if errors.Is(err, &check.ErrorGithubUserNotFound{}) {
+	} else if errors.Is(err, &github.ErrorUserNotFound{}) {
 		// Github user's url does not exist
 		w.WriteHeader(http.StatusNoContent)
 		w.Write([]byte("{}"))

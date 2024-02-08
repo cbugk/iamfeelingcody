@@ -20,7 +20,6 @@ import (
 
 func main() {
 	workerThreadCount := 10
-
 	fmt.Println("Started iamfeelingcody")
 
 	// initialize db
@@ -29,30 +28,27 @@ func main() {
 	port := 8000
 	addr := fmt.Sprintf("localhost:%d", port)
 	fmt.Printf("Server listening on http://%s\n", addr)
-
 	server := &http.Server{
 		Addr:    addr,
 		Handler: route.Router(),
 	}
-
 	idleConnsClosed := make(chan struct{})
 	pkgRoutine.GracefulShutdown(server, idleConnsClosed)
 
-	// Channel for user finders
+	// Channel for user finder routines
 	names := make(chan string, workerThreadCount)
-
-	// Send random name to channel
+	// Keeps channel filled with random names
 	go func() {
 		for {
 			names <- fmt.Sprint(uniuri.NewLenChars(rand.Intn(1), ralpv.Alpnum), uniuri.NewLenChars(rand.Intn(38), ralpv.Alpnumdash))
 		}
 	}()
-
 	// Run worker
 	for i := 0; i < workerThreadCount; i++ {
-		routine.TryAddUser(names)
+		go routine.UserFinder(names)()
 	}
 
+	// Web server
 	go func() {
 		if err := server.ListenAndServe(); err != nil &&
 			!errors.Is(err, http.ErrServerClosed) {

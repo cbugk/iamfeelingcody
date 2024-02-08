@@ -1,4 +1,4 @@
-package check
+package github
 
 import (
 	"fmt"
@@ -18,11 +18,11 @@ func CheckGithubUser(name string) error {
 	if resp.StatusCode == 200 {
 		return nil
 	} else if resp.StatusCode == 429 {
-		return &ErrorGithubTooManyRequests{}
+		return &ErrorTooManyRequests{}
 	} else if resp.StatusCode != 404 {
 		log.Fatalln(resp.StatusCode)
 		return nil
 	} else {
-		return &ErrorGithubUserNotFound{}
+		return &ErrorUserNotFound{}
 	}
 }
