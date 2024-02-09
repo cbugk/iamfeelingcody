@@ -10,8 +10,10 @@ import (
 func RegisterRoutesAPI(r *httprouter.Router) {
 	// TODO OpenAPI3 integration
 
+	// User methods
 	r.DELETE("/api/v1/user", delete.User)
 	r.GET("/api/v1/user", get.User)
 	r.GET("/api/v1/users", get.Users)
+	r.GET("/api/v1/find", get.Random)
 	r.PUT("/api/v1/user", put.User)
 }

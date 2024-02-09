@@ -1,9 +1,23 @@
 package routine
 
-import "github.com/cbugk/iamfeelingcody/src/internal/github"
+import (
+	"fmt"
+	"math/rand"
 
-func UserFinder(names <-chan string) func() {
+	"github.com/cbugk/iamfeelingcody/src/internal/github"
+	"github.com/cbugk/iamfeelingcody/src/internal/ralpv"
+	"github.com/dchest/uniuri"
+)
+
+func UserFinder(names <-chan string, n int) func() {
 	return func() {
-		github.TryAddUser(<-names)
+		for i := 0; i < n; i++ {
+			// Until requested number of users are put into DB
+			for {
+				if n <= 0 || github.PutUser(fmt.Sprint(uniuri.NewLenChars(1, ralpv.Alpnum), uniuri.NewLenChars(rand.Intn(github.MaxLength-1), ralpv.Alpnumdash))) {
+					break
+				}
+			}
+		}
 	}
 }

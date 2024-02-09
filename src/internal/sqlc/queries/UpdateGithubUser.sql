@@ -1,5 +1,8 @@
 -- name: UpdateGithubUser :one
 UPDATE GithubUsers
-set name = ?
+SET
+name = ?,
+ralpv = ?,
+present = ?
 WHERE id = ?
 RETURNING *;

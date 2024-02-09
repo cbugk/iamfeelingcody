@@ -4,22 +4,17 @@ import (
 	"errors"
 	"fmt"
 	"log"
-	"math/rand"
 	"net/http"
 
 	"path/filepath"
 
-	"github.com/cbugk/iamfeelingcody/src/internal/ralpv"
 	"github.com/cbugk/iamfeelingcody/src/internal/route"
-	"github.com/cbugk/iamfeelingcody/src/internal/routine"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 	"github.com/cbugk/iamfeelingcody/src/pkg/binpath"
 	pkgRoutine "github.com/cbugk/iamfeelingcody/src/pkg/routine"
-	"github.com/dchest/uniuri"
 )
 
 func main() {
-	workerThreadCount := 10
 	fmt.Println("Started iamfeelingcody")
 
 	// initialize db
@@ -32,21 +27,8 @@ func main() {
 		Addr:    addr,
 		Handler: route.Router(),
 	}
-	idleConnsClosed := make(chan struct{})
-	pkgRoutine.GracefulShutdown(server, idleConnsClosed)
-
-	// Channel for user finder routines
-	names := make(chan string, workerThreadCount)
-	// Keeps channel filled with random names
-	go func() {
-		for {
-			names <- fmt.Sprint(uniuri.NewLenChars(rand.Intn(1), ralpv.Alpnum), uniuri.NewLenChars(rand.Intn(38), ralpv.Alpnumdash))
-		}
-	}()
-	// Run worker
-	for i := 0; i < workerThreadCount; i++ {
-		go routine.UserFinder(names)()
-	}
+	pkgRoutine.ControlC = make(chan struct{})
+	pkgRoutine.GracefulShutdown(server, pkgRoutine.ControlC)
 
 	// Web server
 	go func() {
@@ -56,6 +38,6 @@ func main() {
 		}
 	}()
 
-	<-idleConnsClosed
+	<-pkgRoutine.ControlC
 	log.Println("Service stopped")
 }
