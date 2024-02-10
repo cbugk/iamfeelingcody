@@ -5,6 +5,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"regexp"
 	"strconv"
 
 	"github.com/cbugk/iamfeelingcody/src/internal/github"
@@ -18,30 +19,32 @@ import (
 func Random(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	var n int
 	var err error
+	users := make([]sqlite.GithubUser, 0)
 
-	if s := r.URL.Query().Get("n"); s == "" {
+	s := r.URL.Query().Get("n")
+	if regexp.MustCompile(`\s*`).MatchString(s) {
 		n = rand.Intn(github.MaxLength)
 		log.Println("Random n not provided, generated: ", n)
 	} else {
 		n, err = strconv.Atoi(s)
 		if err != nil {
-			log.Println("Random n not valid, set to: ", n)
-			n = 0
+
 		}
 	}
 
-	found := make(chan string, n)
-	routine.Random(n, found)
-	// Accumulate results
-	users := make([]sqlite.GithubUser, 0)
-	for f := range found {
-		if user, err := sqlc.Q().GetGithubUser(context.Background(), f); err != nil {
-			log.Println(err.Error())
-		} else {
-			users = append(users, user)
+	if n > 0 {
+		found := make(chan string, n)
+		routine.Random(n, found)
+		// Accumulate results
+		for f := range found {
+			if user, err := sqlc.Q().GetGithubUser(context.Background(), f); err != nil {
+				log.Println(err.Error())
+			} else {
+				users = append(users, user)
+			}
 		}
+		// found closed by Random
 	}
-	// found closed by Random
 
 	page.Random(users).Render(r.Context(), w)
 }
