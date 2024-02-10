@@ -19,7 +19,7 @@ func GracefulShutdown(s *http.Server, c chan<- struct{}) {
 
 		log.Println("service interrupt recieved")
 
-		ShouldStop = true
+		IsControlCRecieved = true
 
 		ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 		defer cancel()

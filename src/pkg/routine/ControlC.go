@@ -1,4 +1,4 @@
 package routine
 
 var ControlC chan struct{}
-var ShouldStop bool = false
+var IsControlCRecieved bool = false
