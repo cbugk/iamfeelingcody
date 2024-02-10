@@ -67,18 +67,7 @@ func PutUser(name string) (ok bool) {
 	// Github user's url does not exist
 	if errors.Is(errGithub, &ErrorUserNotFound{}) {
 		log.Println(errGithub.Error())
-		user, errGithub = sqlc.Q().CreateGithubUser(context.Background(), sqlite.CreateGithubUserParams{
-			Name:    name,
-			Ralpv:   ralpv.NameToRalpv(name),
-			Present: false,
-		})
-
-		if errGithub != nil {
-			log.Println(errGithub.Error())
-			return false
-		}
-		log.Println(user.Ralpv, user.Name)
-		return true
+		return false
 	}
 
 	// Github rate limit reached
