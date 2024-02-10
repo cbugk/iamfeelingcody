@@ -1,5 +1,45 @@
 package comp
 
-templ ListRandomUserN() {
-    Placeholder
+import "strconv"
+
+import(
+    "fmt"
+
+    "github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
+)
+
+templ ListRandomUserN(users []sqlite.GithubUser) {
+    <h3> 
+        Find Random User(s)
+    </h3>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Link</th>
+            <th>Present</th>
+            <th>Last checked</th>
+        </tr>
+        </thead>
+
+        <tbody id="search-results">
+        for _, user := range users{
+        <tr>
+            <th>
+                { user.Name }
+            </th>
+            <th>
+                <a href={ templ.URL(fmt.Sprintf("https://github.com/%v", user.Name)) }>{ fmt.Sprintf("https://github.com/%v", user.Name) }</a>
+            </th>
+            <th>
+                { strconv.FormatBool(user.Present) }
+            </th>
+            <th>
+                { user.Timestamp.Time.Format("2006-01-02T15:04:05") }
+            </th>
+
+        </tr>
+        }
+        </tbody>
+    </table>
 }

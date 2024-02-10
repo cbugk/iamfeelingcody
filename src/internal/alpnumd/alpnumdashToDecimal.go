@@ -1,4 +1,4 @@
-package ralpv
+package alpnumd
 
 // For optimising to name to ralpv calculation, as a consequence ralpv to name is inefficient
 var alpnumdashToDecimal = map[string]int{

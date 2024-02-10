@@ -6,8 +6,8 @@ import (
 	"math/rand"
 	"sync"
 
+	"github.com/cbugk/iamfeelingcody/src/internal/alpnumd"
 	"github.com/cbugk/iamfeelingcody/src/internal/github"
-	"github.com/cbugk/iamfeelingcody/src/internal/ralpv"
 	pkgRoutine "github.com/cbugk/iamfeelingcody/src/pkg/routine"
 	"github.com/dchest/uniuri"
 )
@@ -23,7 +23,7 @@ func Random(n int, found chan<- string) {
 			// Until stop signal recieved
 			// OR user is put into DB
 			for !pkgRoutine.IsControlCRecieved {
-				random := fmt.Sprint(uniuri.NewLenChars(1, ralpv.Alpnum), uniuri.NewLenChars(rand.Intn(github.MaxLength-1), ralpv.Alpnumdash))
+				random := fmt.Sprint(uniuri.NewLenChars(1, alpnumd.Alpnum), uniuri.NewLenChars(rand.Intn(github.MaxLength-1), alpnumd.Alpnumdash))
 				if github.PutUser(random) {
 					log.Println("Has Put: ", random)
 					found <- random

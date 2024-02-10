@@ -1,0 +1,12 @@
+package page
+
+import (
+    "github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
+    "github.com/cbugk/iamfeelingcody/src/internal/templ/comp"
+    )
+
+templ Random(users []sqlite.GithubUser) {
+    @comp.ScriptHTMX()
+
+    @comp.ListRandomUserN(users)
+}
