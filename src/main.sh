@@ -92,29 +92,30 @@ prerun() {
 
 clean() {
   # delete auto-generated sqlite go files
-  rm -f ./internal/sqlc/sqlite/*.go
 
-  find ./internal/templ -name '*.go' | \
-    xargs -i rm -rf {}
-  
   # `tail -n+2` excludes directory itself
   # `grep -v` used to exclude by regex
-  find ../bin | \
-    tail -n+2 | \
-    grep -v '^../bin/public.*$' | \
-    xargs -i rm -rf {}
+
+  rm -f ./internal/sqlc/sqlite/*.go && \
+  ( \
+    find ./internal/templ -name '*.go' | \
+      xargs -i rm -rf {} \
+  ) && ( \
+    find ../bin | \
+      tail -n+2 | \
+      grep -v '^../bin/public.*$' | \
+      xargs -i rm -rf {} \
+  )
 }
 
 build() {
-  prerun
-
+  prerun && \
   go build -o ../bin/iamfeelingcody cmd/iamfeelingcody/*.go && \
   chmod u+x ../bin/iamfeelingcody
 }; export -f build
 
 run() {
-  prerun
-
+  prerun && \
   go run cmd/iamfeelingcody/*.go
 }; export -f run
 
@@ -124,7 +125,8 @@ runbin() {
 }
 
 cleanrunbin() {
-  clean && runbin
+  clean && \
+  runbin
 }
 
 #---------------
