@@ -8,7 +8,6 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/cbugk/iamfeelingcody/src/internal/github"
 	"github.com/cbugk/iamfeelingcody/src/internal/routine"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc"
 	"github.com/cbugk/iamfeelingcody/src/internal/sqlc/sqlite"
@@ -23,12 +22,12 @@ func Random(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	s := r.URL.Query().Get("n")
 	if regexp.MustCompile(`\s*`).MatchString(s) {
-		n = rand.Intn(github.MaxLength)
+		n = rand.Intn(5) + 1 // zero is not valid
 		log.Println("Random n not provided, generated: ", n)
 	} else {
 		n, err = strconv.Atoi(s)
 		if err != nil {
-
+			log.Println(err.Error())
 		}
 	}
 
