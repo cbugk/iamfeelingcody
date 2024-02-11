@@ -14,6 +14,6 @@ func RegisterRoutesAPI(r *httprouter.Router) {
 	r.DELETE("/api/v1/user", delete.User)
 	r.GET("/api/v1/user", get.User)
 	r.GET("/api/v1/users", get.Users)
-	r.GET("/api/v1/find", get.Random)
+	r.GET("/api/v1/random", get.Random)
 	r.PUT("/api/v1/user", put.User)
 }
