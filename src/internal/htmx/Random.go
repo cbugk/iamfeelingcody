@@ -16,19 +16,20 @@ import (
 )
 
 func Random(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	var n int
+	n := 0
 	var err error
 	users := make([]sqlite.GithubUser, 0)
 
 	s := r.URL.Query().Get("n")
-	if regexp.MustCompile(`\s*`).MatchString(s) {
-		n = rand.Intn(5) + 1 // zero is not valid
-		log.Println("Random n not provided, generated: ", n)
-	} else {
+	log.Printf("s: '%v'\n", s)
+	if regexp.MustCompile(`[0-9]*`).MatchString(s) {
 		n, err = strconv.Atoi(s)
 		if err != nil {
 			log.Println(err.Error())
 		}
+	} else {
+		n = rand.Intn(5) + 1 // zero is not valid
+		log.Println("Random n not provided, generated: ", n)
 	}
 
 	if n > 0 {
