@@ -15,7 +15,7 @@ func Router() *httprouter.Router {
 	RegisterRoutesAPI(r)
 
 	// /
-	RegisterRoutesHTMX(r)
+	RegisterRoutesPage(r)
 
 	return r
 }

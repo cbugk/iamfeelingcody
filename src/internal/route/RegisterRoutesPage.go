@@ -5,9 +5,10 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func RegisterRoutesHTMX(r *httprouter.Router) {
+func RegisterRoutesPage(r *httprouter.Router) {
 	r.GET("/", htmx.Index)
 	r.GET("/random", htmx.Random)
+	r.GET("/search", htmx.Search)
 	r.GET("/user", htmx.User)
 	r.GET("/users", htmx.Users)
 }

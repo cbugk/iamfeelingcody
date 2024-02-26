@@ -5,8 +5,8 @@ import (
     "github.com/cbugk/iamfeelingcody/src/internal/templ/comp"
 )
 
-templ Random(users []sqlite.GithubUser) {
+templ Search(users []sqlite.GithubUser) {
     @comp.ScriptHTMX()
 
-    @comp.ListRandomUserN(users)
+    @comp.Search(users)
 }
