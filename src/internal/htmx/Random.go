@@ -22,7 +22,7 @@ func Random(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 	s := r.URL.Query().Get("n")
 	log.Printf("s: '%v'\n", s)
-	if regexp.MustCompile(`[0-9]*`).MatchString(s) {
+	if regexp.MustCompile(`[0-9]+`).MatchString(s) {
 		n, err = strconv.Atoi(s)
 		if err != nil {
 			log.Println(err.Error())
